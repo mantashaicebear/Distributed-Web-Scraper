@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker-deployment
+spec:
+  replicas: 3 # Scaling up to 3 worker nodes
+  selector:
+    matchLabels:
+      app: scraper-worker
+  template:
+    metadata:
+      labels:
+        app: scraper-worker
+    spec:
+      containers:
+      - name: worker-container
+        image: yourdockerhubusername/scraper-worker:latest
+        env:
+        - name: KAFKA_BROKER
+          value: "kafka-service:9092"
+        - name: DB_HOST
+          value: "postgres-service"
