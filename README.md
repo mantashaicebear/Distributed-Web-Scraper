@@ -13,7 +13,7 @@ These steps were verified in WSL with Docker Compose v2.
 ### 1. Open WSL and go to the compose folder
 
 ```bash
-cd /mnt/d/SPIT_sem_6/DEVOPS/Devops_project/Distributed-Web-Scraper/ci-cd
+cd /Distributed-Web-Scraper/ci-cd
 ```
 
 ### 2. Start the stack
@@ -92,13 +92,3 @@ docker compose down
 - If you see a warning about `version` in `docker-compose.yml`, it is safe to ignore; Compose v2 simply treats it as obsolete.
 - If containers were created with the older `docker-compose` binary and you hit stale-image errors, remove the old project containers and rerun with `docker compose up -d --build`.
 - Jenkins runs on `http://localhost:8080`.
-
-## Person 3 Scope
-
-Person 3 owns the API layer:
-
-- `api-service/app.py`
-- `api-service/routes/scrape.py`
-- `api-service/kafka_producer.py`
-
-The API validates URLs, ensures the Kafka topic exists, and queues requests to Kafka.
