@@ -38,7 +38,7 @@ try:
         data = message.value
         url = data.get('url')
         print(f"\n[+] Picked up task from queue: {url}")
-        print("[+] Pretending to scrape...")
+        print("[+] V2 ACTIVE: Pretending to scrape from the Cloud Image!")
         time.sleep(2) # Simulate the time it takes to scrape
         print("[+] Scrape complete! Ready for next task.")
 

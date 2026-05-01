@@ -46,3 +46,22 @@ services:
     depends_on:
       - kafka
       - postgres
+
+  # --- NEW PHASE 2 ADDITION: JENKINS ROBOT ---
+  jenkins:
+    build:
+      context: .
+      dockerfile: Dockerfile.jenkins
+    container_name: jenkins
+    user: root
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_data:/var/jenkins_home
+      # This is the magic pipeline that lets Jenkins talk to your laptop's Docker!
+      - /var/run/docker.sock:/var/run/docker.sock
+
+# We must declare the volume at the bottom so Jenkins doesn't lose its memory
+volumes:
+  jenkins_data:

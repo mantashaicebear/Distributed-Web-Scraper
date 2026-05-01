@@ -1,0 +1,19 @@
+FROM jenkins/jenkins:lts
+USER root
+
+# 1. Install required tools (Notice: no software-properties-common)
+RUN apt-get update && \
+    apt-get -y install ca-certificates curl gnupg lsb-release
+
+# 2. Add Docker's official secure GPG key
+RUN mkdir -p /etc/apt/keyrings && \
+    curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+# 3. Add the Docker repository directly
+RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" > /etc/apt/sources.list.d/docker.list
+
+# 4. Install the Docker CLI
+RUN apt-get update && \
+    apt-get -y install docker-ce-cli
+
+USER jenkins
