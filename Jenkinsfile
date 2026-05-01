@@ -40,5 +40,21 @@ pipeline {
                 }
             }
         }
+        stage('Deploy to Kubernetes') {
+            steps {
+                script {
+                    echo "Deploying the new cloud images to Minikube..."
+                    withCredentials([file(credentialsId: 'k8s-kubeconfig', variable: 'KUBECONFIG')]) {
+                        // 1. Tell Kubernetes to apply our configurations
+                        sh "kubectl apply -f infrastructure/k8s/api-deployment.yaml --kubeconfig=\$KUBECONFIG"
+                        sh "kubectl apply -f infrastructure/k8s/worker-deployment.yaml --kubeconfig=\$KUBECONFIG"
+                        
+                        // 2. Force Kubernetes to pull the latest V2 images from Docker Hub and reboot the pods!
+                        sh "kubectl rollout restart deployment api-deployment --kubeconfig=\$KUBECONFIG"
+                        sh "kubectl rollout restart deployment worker-deployment --kubeconfig=\$KUBECONFIG"
+                    }
+                }
+            }
+        }   
     }
 }
